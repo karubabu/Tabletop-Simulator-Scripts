@@ -4,22 +4,22 @@ button_parameters.function_owner = nil
 button_parameters.label = 'Deal'
 button_parameters.position = {0,0,0}
 button_parameters.rotation = {0,0,0}
-button_parameters.width = 2000
-button_parameters.height = 1800
-button_parameters.font_size = 900
-library_GUID = "28106c"
-A_expansion_library_GUID = "8b7232"
-B_expansion_library_GUID = "2e3ffa"
-C_expansion_library_GUID = "d9811b"
+button_parameters.width = 200
+button_parameters.height = 100
+button_parameters.font_size = 10
+BUILD_LIBRARY_GUID = "28106c"
+A_EXPANSION_LIBRARY_GUID = "8b7232"
+B_EXPANSION_LIBRARY_GUID = "2e3ffa"
+C_EXPANSION_LIBRARY_GUID = "d9811b"
 
 
 function onload()
-  A_library = getObjectFromGUID(A_expansion_library_GUID)
-  B_library = getObjectFromGUID(B_expansion_library_GUID)
-  C_library = getObjectFromGUID(C_expansion_library_GUID)
+  A_expansion_library = getObjectFromGUID(A_EXPANSION_LIBRARY_GUID)
+  B_expansion_library = getObjectFromGUID(B_EXPANSION_LIBRARY_GUID)
+  C_expansion_library = getObjectFromGUID(C_EXPANSION_LIBRARY_GUID)
 
-  library = getObjectFromGUID(library_GUID)
-  library.createButton(button_parameters)
+  build_library = getObjectFromGUID(BUILD_LIBRARY_GUID)
+  DealButtonClicked()
 end
 
 function DealExpansionCardstoField(player_num)
@@ -40,14 +40,13 @@ function flip_expansion_card(obj)
 end
 
 function PutExpansionCard(table)
-  if A_expansion_bag.getQuantity() ~= 0 then A_expansion_bag.takeObject(table) return end
-  if B_expansion_bag.getQuantity() ~= 0 then B_expansion_bag.takeObject(table) return end
-  if C_expansion_bag.getQuantity() ~= 0 then C_expansion_bag.takeObject(table) return end
+  if A_expansion_library.getQuantity() ~= 0 then A_expansion_library.shuffle() A_expansion_library.takeObject(table) return end
+  if B_expansion_library.getQuantity() ~= 0 then B_expansion_library.shuffle() B_expansion_library.takeObject(table) return end
+  if C_expansion_library.getQuantity() ~= 0 then C_expansion_library.shuffle() C_expansion_library.takeObject(table) return end
 end
 
 function DealButtonClicked()
-  if players_counter == nil then error("counter can't be found.") end
-  player_count = players_counter.getValue()
+  player_count = #Player.getPlayers()
   if player_count < 2 then error("player is too few.") end
   if player_count > 4 then error("player is too many.") end
 
@@ -71,8 +70,7 @@ end
 
 function DealBuildTiletoField(number_of_remaining_cards)
   if number_of_remaining_cards == 0 then return end
-  if library == nil then error("library can't be found.") end
   snappoint_table = Global.GetSnapPoints()
-  library.takeObject(snappoint_table[number_of_remaining_cards])
+  build_library.takeObject(snappoint_table[number_of_remaining_cards])
   DealBuildTiletoField(number_of_remaining_cards - 1)
 end
