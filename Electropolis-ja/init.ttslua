@@ -2,58 +2,24 @@ button_parameters = {}
 button_parameters.click_function = 'DealButtonClicked'
 button_parameters.function_owner = nil
 button_parameters.label = 'Deal'
-button_parameters.position = {0,0.8,0}
-button_parameters.rotation = {0,-180,0}
+button_parameters.position = {0,0,0}
+button_parameters.rotation = {0,0,0}
 button_parameters.width = 2000
 button_parameters.height = 1800
 button_parameters.font_size = 900
 library_GUID = "28106c"
-A_expansion_library_GUID = "5747bd"
-B_expansion_library_GUID = "e91556"
-C_expansion_library_GUID = "92cf13"
-expansion_cards_on_field = {"c16a8f", "bec8bf", "80f1ce", "cb09ce"}
-bag_table = {}
-bag_table.type = "bag"
-bag_table.scale = {0.66,0.66,0.66}
+A_expansion_library_GUID = "8b7232"
+B_expansion_library_GUID = "2e3ffa"
+C_expansion_library_GUID = "d9811b"
+
 
 function onload()
   A_library = getObjectFromGUID(A_expansion_library_GUID)
   B_library = getObjectFromGUID(B_expansion_library_GUID)
   C_library = getObjectFromGUID(C_expansion_library_GUID)
-  players_counter = spawnObject({position={-34.53535,1.460778, 25.8741},type="Counter"})
-  players_counter.setValue(2)
-  button_yorisiro_checker = spawnObject({position={-28.4458,1.481499,25.16211},type="Checker_red"})
-  button_yorisiro_checker.createButton(button_parameters)
+
   library = getObjectFromGUID(library_GUID)
-  BringBackExpansionCards()
-  bag_table.position = A_library.getPosition()
-  A_expansion_bag = spawnObject(bag_table)
-  bag_table.position = B_library.getPosition()
-  B_expansion_bag = spawnObject(bag_table)
-  bag_table.position = C_library.getPosition()
-  C_expansion_bag = spawnObject(bag_table)
-  PutExpansionCardsintoBag()
-end
-
-function BringBackExpansionCards()
-  if A_library == nil then error("A_library can't be found.") end
-  for i,v in pairs(expansion_cards_on_field) do
-    temp_obj = getObjectFromGUID(v)
-    A_library.putObject(temp_obj)
-  end
-  A_library.shuffle()
-end
-
-function PutExpansionCardsintoBag()
-  for i = 1, A_library.getQuantity() do
-    A_expansion_bag.putObject(A_library.takeObject({}))
-  end
-  for i = 1, B_library.getQuantity() do
-    B_expansion_bag.putObject(B_library.takeObject({}))
-  end
-  for i = 1, C_library.getQuantity() do
-    C_expansion_bag.putObject(C_library.takeObject({}))
-  end
+  library.createButton(button_parameters)
 end
 
 function DealExpansionCardstoField(player_num)
