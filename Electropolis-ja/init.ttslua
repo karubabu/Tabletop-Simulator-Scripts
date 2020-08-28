@@ -14,23 +14,21 @@ B_EXPANSION_LIBRARY_GUID = "2e3ffa"
 C_EXPANSION_LIBRARY_GUID = "d9811b"
 TREND_LIBRARY_GUID = "b35c5f"
 
-
 function onload()
   A_expansion_library = getObjectFromGUID(A_EXPANSION_LIBRARY_GUID)
   B_expansion_library = getObjectFromGUID(B_EXPANSION_LIBRARY_GUID)
   C_expansion_library = getObjectFromGUID(C_EXPANSION_LIBRARY_GUID)
   trend_library = getObjectFromGUID(TREND_LIBRARY_GUID)
   build_library = getObjectFromGUID(BUILD_LIBRARY_GUID)
-
-  SetTrendCardstoField()
   build_library.createButton(button_parameters)
+  snappoint_table = Global.GetSnapPoints()
+  PutTrendCardstoField()
 end
 
-function SetTrendCardstoField()
+function PutTrendCardstoField()
   trend_library.shuffle()
-  snappoint_table = Global.GetSnapPoints()
   for i,v in pairs(snappoint_table) do
-    if i > 22 and i < 26 then
+    if 22 < i and i < 26 then
       trend_library.takeObject(v)
     end
   end
@@ -38,7 +36,6 @@ end
 
 function DealExpansionCardstoField(player_num)
   if player_num == 0 then return end
-  snappoint_table = Global.GetSnapPoints()
   for i,v in pairs(snappoint_table) do
     if i == (player_num + 18) then
       temp_v = v
@@ -84,7 +81,6 @@ end
 
 function DealBuildTiletoField(number_of_remaining_cards)
   if number_of_remaining_cards == 0 then return end
-  snappoint_table = Global.GetSnapPoints()
   build_library.takeObject(snappoint_table[number_of_remaining_cards])
   DealBuildTiletoField(number_of_remaining_cards - 1)
 end
