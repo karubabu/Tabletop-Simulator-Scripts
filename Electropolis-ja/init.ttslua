@@ -58,7 +58,7 @@ function PutExpansionCard(table)
 end
 
 function DealButtonClicked()
-   number_of_player= #Player.getPlayers()
+  number_of_player= #Player.getPlayers()
   if number_of_player < 2 then error("player is too few.") end
   if number_of_player > 4 then error("player is too many.") end
 
