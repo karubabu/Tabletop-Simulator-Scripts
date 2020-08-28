@@ -1,18 +1,19 @@
-button_parameters = {}
-button_parameters.click_function = 'DealButtonClicked'
-button_parameters.function_owner = nil
-button_parameters.label = 'Deal'
-button_parameters.position = {40,10,0}
-button_parameters.rotation = {0,180,0}
-button_parameters.scale = {30,30,30}
-button_parameters.width = 650
-button_parameters.height = 650
-button_parameters.font_size = 300
-BUILD_LIBRARY_GUID = "28106c"
+BUTTON_PARAMETERS = {
+  click_function = 'DealButtonClicked',
+  function_owner = nil,
+  label = 'Deal',
+  position = {40,10,0},
+  rotation = {0,180,0},
+  scale = {30,30,30},
+  width = 650,
+  height = 650,
+  font_size = 300
+}
 A_EXPANSION_LIBRARY_GUID = "8b7232"
 B_EXPANSION_LIBRARY_GUID = "2e3ffa"
 C_EXPANSION_LIBRARY_GUID = "d9811b"
 TREND_LIBRARY_GUID = "b35c5f"
+BUILD_LIBRARY_GUID = "28106c"
 
 function onload()
   A_expansion_library = getObjectFromGUID(A_EXPANSION_LIBRARY_GUID)
@@ -20,16 +21,16 @@ function onload()
   C_expansion_library = getObjectFromGUID(C_EXPANSION_LIBRARY_GUID)
   trend_library = getObjectFromGUID(TREND_LIBRARY_GUID)
   build_library = getObjectFromGUID(BUILD_LIBRARY_GUID)
-  build_library.createButton(button_parameters)
+  build_library.createButton(BUTTON_PARAMETERS)
   snappoint_table = Global.GetSnapPoints()
   PutTrendCardstoField()
 end
 
 function PutTrendCardstoField()
   trend_library.shuffle()
-  for i,v in pairs(snappoint_table) do
-    if 22 < i and i < 26 then
-      trend_library.takeObject(v)
+  for index,table in pairs(snappoint_table) do
+    if 22 < index and index < 26 then
+      trend_library.takeObject(table)
     end
   end
 end
@@ -39,15 +40,15 @@ function DealExpansionCardstoField(player_num)
   for i,v in pairs(snappoint_table) do
     if i == (player_num + 18) then
       temp_v = v
-      temp_v.callback_function = function(obj) flip_expansion_card(obj) end
+      temp_v.callback_function = function(card_obj) flip_expansion_card(card_obj) end
       PutExpansionCard(temp_v)
     end
   end
   DealExpansionCardstoField(player_num - 1)
 end
 
-function flip_expansion_card(obj)
-  obj.flip()
+function flip_expansion_card(card_obj)
+  card_obj.flip()
 end
 
 function PutExpansionCard(table)
@@ -57,15 +58,15 @@ function PutExpansionCard(table)
 end
 
 function DealButtonClicked()
-  player_count = #Player.getPlayers()
-  if player_count < 2 then error("player is too few.") end
-  if player_count > 4 then error("player is too many.") end
+   number_of_player= #Player.getPlayers()
+  if number_of_player < 2 then error("player is too few.") end
+  if number_of_player > 4 then error("player is too many.") end
 
-  DealBuildTilestoField(player_count)
-  DealExpansionCardstoField(player_count)
+  DealBuildTilestoField(number_of_player)
+  DealExpansionCardstoField(number_of_player)
 end
 
-function DealBuildTilestoField(player_num)
+function DealBuildTilestoField(number_of_player)
   local switch = {2,3,4}
   switch[2] = function()
     DealBuildTiletoField(14)
@@ -76,7 +77,7 @@ function DealBuildTilestoField(player_num)
   switch[4] = function()
     DealBuildTiletoField(18)
   end
-  switch[player_num]()
+  switch[number_of_player]()
 end
 
 function DealBuildTiletoField(number_of_remaining_cards)
