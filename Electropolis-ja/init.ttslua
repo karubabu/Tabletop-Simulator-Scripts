@@ -2,11 +2,12 @@ button_parameters = {}
 button_parameters.click_function = 'DealButtonClicked'
 button_parameters.function_owner = nil
 button_parameters.label = 'Deal'
-button_parameters.position = {0,0,0}
-button_parameters.rotation = {0,0,0}
-button_parameters.width = 200
-button_parameters.height = 100
-button_parameters.font_size = 10
+button_parameters.position = {40,10,0}
+button_parameters.rotation = {0,180,0}
+button_parameters.scale = {30,30,30}
+button_parameters.width = 650
+button_parameters.height = 650
+button_parameters.font_size = 300
 BUILD_LIBRARY_GUID = "28106c"
 A_EXPANSION_LIBRARY_GUID = "8b7232"
 B_EXPANSION_LIBRARY_GUID = "2e3ffa"
@@ -22,6 +23,7 @@ function onload()
   build_library = getObjectFromGUID(BUILD_LIBRARY_GUID)
 
   SetTrendCardstoField()
+  build_library.createButton(button_parameters)
 end
 
 function SetTrendCardstoField()
